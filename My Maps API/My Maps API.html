@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #map{
+            width: 800px;
+            height: 400px;
+        }
+    </style>
+    <title>My Maps API</title>
+</head>
+<body>
+
+    <h1>My Google Maps</h1>
+    <button id="start">Get My Location!</button>
+    <p id="location"></p>
+    <div id="map"></div>
+    
+    <script>
+        
+        document.getElementById("start").addEventListener('click', initLoc);
+
+        function initLoc(){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(initMap);
+            } else { 
+                document.getElementById('location').innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function initMap(position){
+
+            var latitudeLoc = position.coords.latitude;
+            var longitudeLoc = position.coords.longitude;
+
+            var detailLocation = document.getElementById('location').innerHTML = "Latitude : " + latitudeLoc + "<br> Longitude : " + longitudeLoc;
+
+            var options = {
+                zoom:10,
+                center: {lat:latitudeLoc, lng:longitudeLoc},
+            }
+
+            var map = new
+            google.maps.Map(document.getElementById('map'), options);
+
+            var marker = new google.maps.Marker({
+                position: {lat:latitudeLoc, lng:longitudeLoc},
+                map:map,
+            });
+
+            // var content = new google.maps.infoWindow({
+            //     content:'<h1>My Location</h1>',
+            // });
+
+            // marker.addEventListener('click', function(){
+            //     infoWindow.open(map, marker);
+            // });
+        }
+    </script>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANLPXT_P8U4YFxEi4q87lkwBM3GwMQmkg&callback=initMap&libraries=&v=weekly"
+    async
+  ></script>
+</body>
+</html>
